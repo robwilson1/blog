@@ -1,5 +1,6 @@
-import { Box, VStack } from "@chakra-ui/react";
+import React from "react";
 import Head from "next/head";
+import { Box, VStack } from "@chakra-ui/react";
 import { Header, Footer } from "..";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

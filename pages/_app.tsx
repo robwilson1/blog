@@ -4,14 +4,14 @@ import theme from "../theme";
 import "reset-css";
 import { Layout } from "../components";
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ChakraProvider theme={theme}>
-      <Layout {...pageProps}>
+      <Layout>
         <Component {...pageProps} />
       </Layout>
     </ChakraProvider>
   );
-}
+};
 
 export default MyApp;

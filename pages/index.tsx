@@ -1,6 +1,4 @@
 import {
-  Box,
-  Center,
   Container,
   Flex,
   Heading,
@@ -9,7 +7,6 @@ import {
   Stack,
   Text,
   useColorModeValue,
-  VStack,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 
