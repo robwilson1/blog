@@ -10,7 +10,9 @@ import {
 } from "@chakra-ui/react";
 import type { NextPage, GetStaticProps } from "next";
 import NextLink from "next/link";
-import getPosts from "../lib/get-posts";
+import getPosts, { TPost } from "../lib/get-posts";
+
+type FormattedPost = { path: string; data: TPost["data"] };
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = await getPosts();
@@ -27,7 +29,7 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-const Home: NextPage<any> = ({ posts }) => {
+const Home: NextPage<{ posts: FormattedPost[] }> = ({ posts }) => {
   const titleGradient = useColorModeValue(
     "blue.400, pink.600",
     "pink.400, yellow.400"
@@ -51,7 +53,7 @@ const Home: NextPage<any> = ({ posts }) => {
       <Spacer />
 
       <SimpleGrid columns={{ sm: 2, md: 3 }} spacing={10}>
-        {posts.map((post: any) => (
+        {posts.map((post) => (
           <LinkBox
             as="article"
             maxW="sm"
