@@ -2,7 +2,7 @@ import { extendTheme, type ThemeOverride } from "@chakra-ui/react";
 
 const theme: ThemeOverride = {
   config: {
-    initialColorMode: "dark",
+    initialColorMode: "light",
     useSystemColorMode: false,
   },
   colors: {
@@ -15,8 +15,8 @@ const theme: ThemeOverride = {
       "500": "#65677c",
       "600": "#4f5062",
       "700": "#383946",
-      "800": "#21222b",
-      "900": "#1F2028",
+      "800": "#1f2028",
+      "900": "#14151a",
     },
   },
 };

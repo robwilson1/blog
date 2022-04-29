@@ -1,108 +1,78 @@
 import {
-  Container,
-  Flex,
+  Box,
   Heading,
-  Link,
+  LinkBox,
+  LinkOverlay,
+  SimpleGrid,
   Spacer,
-  Stack,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import type { NextPage } from "next";
+import type { NextPage, GetStaticProps } from "next";
+import NextLink from "next/link";
+import getPosts from "../lib/get-posts";
 
-const Home: NextPage = () => {
-  const mainBg = useColorModeValue("gray.50", "gray.900");
+export const getStaticProps: GetStaticProps = async () => {
+  const posts = await getPosts();
+
+  return {
+    props: {
+      posts: posts
+        .filter((post) => !!post?.data?.title)
+        .map((post) => ({
+          path: `/posts/${post.filename.slice(0, -4)}`, // strip the .mdx from the end of the string
+          data: post.data,
+        })),
+    },
+  };
+};
+
+const Home: NextPage<any> = ({ posts }) => {
+  const titleGradient = useColorModeValue(
+    "blue.400, pink.600",
+    "pink.400, yellow.400"
+  );
 
   return (
-    <Flex as="article" width="full" height="full" flexDirection="column">
-      <Heading
-        as="h1"
-        bgGradient="linear(to-l, #7928CA, #FF0080)"
-        bgClip="text"
-        textAlign="center"
-        paddingY="10"
-      >
-        Welcome to my blog!
-      </Heading>
+    <>
+      <Box width="fit-content" alignSelf="center">
+        <Heading
+          as="h1"
+          bgGradient={`linear(to-r, ${titleGradient})`}
+          bgClip="text"
+          textAlign="center"
+          paddingY="10"
+          fontSize={{ base: "4xl", xl: "6xl" }}
+        >
+          Welcome to my blog!
+        </Heading>
+      </Box>
 
       <Spacer />
 
-      <Container
-        as="section"
-        borderRadius={{ base: 0, xl: "3xl" }}
-        maxWidth="container.lg"
-        height="66vh"
-        overflowY="scroll"
-        bg={mainBg}
-      >
-        <Stack spacing={8} paddingY="10">
-          <Link href="https://nextjs.org/docs" isExternal>
-            <Heading as="h2">Documentation &rarr;</Heading>
-            <Text>
-              Find in-depth information about Next.js features and API.
-            </Text>
-          </Link>
-
-          <Link href="https://nextjs.org/learn">
-            <Heading as="h2">Learn &rarr;</Heading>
-            <Text>
-              Learn about Next.js in an interactive course with quizzes!
-            </Text>
-          </Link>
-
-          <Link href="https://github.com/vercel/next.js/tree/canary/examples">
-            <Heading as="h2">Examples &rarr;</Heading>
-            <Text>
-              Discover and deploy boilerplate example Next.js projects.
-            </Text>
-          </Link>
-
-          <Link href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-            <Heading as="h2">Deploy &rarr;</Heading>
-            <Text>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </Text>
-          </Link>
-
-          <Link href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-            <Heading as="h2">Deploy &rarr;</Heading>
-            <Text>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </Text>
-          </Link>
-
-          <Link href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-            <Heading as="h2">Deploy &rarr;</Heading>
-            <Text>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </Text>
-          </Link>
-
-          <Link href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-            <Heading as="h2">Deploy &rarr;</Heading>
-            <Text>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </Text>
-          </Link>
-
-          <Link href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-            <Heading as="h2">Deploy &rarr;</Heading>
-            <Text>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </Text>
-          </Link>
-
-          <Link href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app">
-            <Heading as="h2">Deploy &rarr;</Heading>
-            <Text>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </Text>
-          </Link>
-        </Stack>
-      </Container>
-
-      <Spacer />
-    </Flex>
+      <SimpleGrid columns={{ sm: 2, md: 3 }} spacing={10}>
+        {posts.map((post: any) => (
+          <LinkBox
+            as="article"
+            maxW="sm"
+            p="5"
+            borderWidth="1px"
+            rounded="md"
+            key={post.data.title}
+          >
+            <Box as="time" dateTime="2021-01-15 15:30:00 +0000 UTC">
+              {post.data.date}
+            </Box>
+            <Heading size="md" my="2">
+              <NextLink href={post.path} passHref>
+                <LinkOverlay>{post.data.title}</LinkOverlay>
+              </NextLink>
+            </Heading>
+            <Text>{post.data.snippet}</Text>
+          </LinkBox>
+        ))}
+      </SimpleGrid>
+    </>
   );
 };
 
