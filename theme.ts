@@ -1,6 +1,6 @@
 import { extendTheme, type ThemeOverride } from "@chakra-ui/react";
 
-const theme: ThemeOverride = {
+export const theme: ThemeOverride = {
   config: {
     initialColorMode: "light",
     useSystemColorMode: false,

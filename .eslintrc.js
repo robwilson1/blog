@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ["next/core-web-vitals", "eslint:recommended", "prettier"],
+  extends: [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "prettier",
+    "plugin:storybook/recommended",
+  ],
   plugins: ["react", "@typescript-eslint", "prettier"],
   env: {
     browser: true,
