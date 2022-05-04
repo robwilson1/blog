@@ -42,7 +42,7 @@ const PostLayout: React.FC<{
 
       <Spacer />
 
-      <Box bg={mainBg} height="66vh" overflowY="scroll">
+      <Box as="article" bg={mainBg} height="66vh" overflowY="scroll">
         <Container as="section" maxWidth="container.xl">
           <Stack spacing={8} paddingY="10">
             {children}

@@ -1,15 +1,6 @@
 import path from "path";
 import fs from "graceful-fs";
-
-export type TPost = {
-  filename: "string";
-  data: {
-    author: string;
-    date: string;
-    title: string;
-    snippet: string;
-  };
-};
+import type { PostData } from "../types";
 
 const getPosts = async () => {
   const postsDirectory = path.join(process.cwd(), "pages/posts");
@@ -20,8 +11,8 @@ const getPosts = async () => {
 
     return {
       filename,
-      data: meta,
-    } as TPost;
+      metadata: meta,
+    } as PostData;
   });
 
   return await Promise.all(posts);

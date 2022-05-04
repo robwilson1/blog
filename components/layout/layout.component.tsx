@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import { Box, Flex, Spacer, VStack } from "@chakra-ui/react";
+import { Flex, Spacer, VStack } from "@chakra-ui/react";
 import { Header, Footer } from "..";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -14,13 +14,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <VStack width="100vw" height="100vh" spacing={0} align="stretch">
       <Header />
 
-      <Box as="main" width="full" height="full">
-        <Flex as="article" width="full" height="full" flexDirection="column">
-          {children}
-
-          <Spacer />
-        </Flex>
-      </Box>
+      <Flex as="main" width="full" height="full" flexDirection="column">
+        {children}
+        <Spacer />
+      </Flex>
 
       <Footer />
     </VStack>

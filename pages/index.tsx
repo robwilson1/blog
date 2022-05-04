@@ -1,35 +1,36 @@
 import {
   Box,
+  Container,
   Heading,
-  LinkBox,
-  LinkOverlay,
   SimpleGrid,
   Spacer,
-  Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import type { NextPage, GetStaticProps } from "next";
-import NextLink from "next/link";
-import getPosts, { TPost } from "../lib/get-posts";
+import type { InferGetStaticPropsType, NextPage, GetStaticProps } from "next";
+import { PostCard } from "../components";
+import getPosts from "../lib/get-posts";
+import type { PostMetadata } from "../types";
 
-type FormattedPost = { path: string; data: TPost["data"] };
-
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<{
+  posts: PostMetadata[];
+}> = async () => {
   const posts = await getPosts();
 
   return {
     props: {
       posts: posts
-        .filter((post) => !!post?.data?.title)
+        .filter((post) => !!post?.metadata?.title)
         .map((post) => ({
           path: `/posts/${post.filename.slice(0, -4)}`, // strip the .mdx from the end of the string
-          data: post.data,
+          ...post.metadata,
         })),
     },
   };
 };
 
-const Home: NextPage<{ posts: FormattedPost[] }> = ({ posts }) => {
+const Home: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
+  posts,
+}) => {
   const titleGradient = useColorModeValue(
     "blue.400, pink.600",
     "pink.400, yellow.400"
@@ -52,28 +53,13 @@ const Home: NextPage<{ posts: FormattedPost[] }> = ({ posts }) => {
 
       <Spacer />
 
-      <SimpleGrid columns={{ sm: 2, md: 3 }} spacing={10}>
-        {posts.map((post) => (
-          <LinkBox
-            as="article"
-            maxW="sm"
-            p="5"
-            borderWidth="1px"
-            rounded="md"
-            key={post.data.title}
-          >
-            <Box as="time" dateTime="2021-01-15 15:30:00 +0000 UTC">
-              {post.data.date}
-            </Box>
-            <Heading size="md" my="2">
-              <NextLink href={post.path} passHref>
-                <LinkOverlay>{post.data.title}</LinkOverlay>
-              </NextLink>
-            </Heading>
-            <Text>{post.data.snippet}</Text>
-          </LinkBox>
-        ))}
-      </SimpleGrid>
+      <Container as="section" maxWidth="container.xl">
+        <SimpleGrid columns={{ sm: 2, md: 3 }} spacing={10}>
+          {posts.map((post) => (
+            <PostCard {...post} key={post.title} />
+          ))}
+        </SimpleGrid>
+      </Container>
     </>
   );
 };

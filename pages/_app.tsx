@@ -1,8 +1,8 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
+import { Layout, MDXFormatter } from "../components";
 import theme from "../theme";
 import "reset-css";
-import { Layout, MDXFormatter } from "../components";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
