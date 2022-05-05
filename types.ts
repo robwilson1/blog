@@ -5,6 +5,14 @@ export type PostData = {
     date: string;
     title: string;
     snippet: string;
+    image: {
+      src: string;
+      author: {
+        name: string;
+        url: string;
+      };
+      alt: string;
+    };
   };
 };
 

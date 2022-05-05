@@ -15,6 +15,14 @@ export default {
 
 export const Main: ComponentStory<typeof PostCard> = () => (
   <PostCard
+    image={{
+      src: "https://images.unsplash.com/photo-1484417894907-623942c8ee29",
+      author: {
+        name: "Emile Perron",
+        url: "https://unsplash.com/@emilep",
+      },
+      alt: "MacBook Pro showing programming language",
+    }}
     author="Rob Wilson"
     date="01-01-2000"
     snippet="Lorem ipsum dolar sit amet..."
